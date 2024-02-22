@@ -6,8 +6,11 @@ from psycopg2 import DatabaseError
 
 fake = Faker()
 
+
 conn = psycopg2.connect(host="localhost", database="homework6", user="postgres", password="hello-postgres")
 cur = conn.cursor()
+
+subject_names = ['Math', 'English', 'Physics', 'Chemistry', 'Geography', 'Music', 'Art', 'Biology']
 
 for _ in range(3):
     cur.execute("INSERT INTO groups (name) VALUES (%s)", (fake.word(),))
@@ -16,8 +19,8 @@ for _ in range(3):
     cur.execute("INSERT INTO teachers (fullname) VALUES (%s)", (fake.name(),))
 
 for teacher_id in range(1, 4):
-    for _ in range(2):
-        cur.execute("INSERT INTO subjects (name, teacher_id) VALUES (%s, %s)", (fake.word(), teacher_id))
+    for subject_name in random.sample(subject_names, 3):
+        cur.execute("INSERT INTO subjects (name, teacher_id) VALUES (%s, %s)", (subject_name, teacher_id))
 
 for group_id in range(1, 4):
     for _ in range(10):
